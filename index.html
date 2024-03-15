@@ -1,368 +1,650 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <!-- <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos."> -->
-  <meta name="keywords" content="Image Generators, Domain Adaptation">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UniHDA: Towards Universal Hybrid Domain Adaptation of Image Generators</title>
+<html class="fontawesome-i2svg-active fontawesome-i2svg-complete"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UniHDA</title>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="" src="./static/js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
-    gtag('js', new Date());
+        gtag('js', new Date());
 
-    gtag('config', 'G-PYVRSFMDRL');
-  </script>
+        gtag('config', 'G-PYVRSFMDRL');
+    </script>
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
+    <style type="text/css">svg:not(:root).svg-inline--fa{overflow:visible}.svg-inline--fa{display:inline-block;font-size:inherit;height:1em;overflow:visible;vertical-align:-.125em}.svg-inline--fa.fa-lg{vertical-align:-.225em}.svg-inline--fa.fa-w-1{width:.0625em}.svg-inline--fa.fa-w-2{width:.125em}.svg-inline--fa.fa-w-3{width:.1875em}.svg-inline--fa.fa-w-4{width:.25em}.svg-inline--fa.fa-w-5{width:.3125em}.svg-inline--fa.fa-w-6{width:.375em}.svg-inline--fa.fa-w-7{width:.4375em}.svg-inline--fa.fa-w-8{width:.5em}.svg-inline--fa.fa-w-9{width:.5625em}.svg-inline--fa.fa-w-10{width:.625em}.svg-inline--fa.fa-w-11{width:.6875em}.svg-inline--fa.fa-w-12{width:.75em}.svg-inline--fa.fa-w-13{width:.8125em}.svg-inline--fa.fa-w-14{width:.875em}.svg-inline--fa.fa-w-15{width:.9375em}.svg-inline--fa.fa-w-16{width:1em}.svg-inline--fa.fa-w-17{width:1.0625em}.svg-inline--fa.fa-w-18{width:1.125em}.svg-inline--fa.fa-w-19{width:1.1875em}.svg-inline--fa.fa-w-20{width:1.25em}.svg-inline--fa.fa-pull-left{margin-right:.3em;width:auto}.svg-inline--fa.fa-pull-right{margin-left:.3em;width:auto}.svg-inline--fa.fa-border{height:1.5em}.svg-inline--fa.fa-li{width:2em}.svg-inline--fa.fa-fw{width:1.25em}.fa-layers svg.svg-inline--fa{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.fa-layers{display:inline-block;height:1em;position:relative;text-align:center;vertical-align:-.125em;width:1em}.fa-layers svg.svg-inline--fa{-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter,.fa-layers-text{display:inline-block;position:absolute;text-align:center}.fa-layers-text{left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter{background-color:#ff253a;border-radius:1em;-webkit-box-sizing:border-box;box-sizing:border-box;color:#fff;height:1.5em;line-height:1;max-width:5em;min-width:1.5em;overflow:hidden;padding:.25em;right:0;text-overflow:ellipsis;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-bottom-right{bottom:0;right:0;top:auto;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:bottom right;transform-origin:bottom right}.fa-layers-bottom-left{bottom:0;left:0;right:auto;top:auto;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:bottom left;transform-origin:bottom left}.fa-layers-top-right{right:0;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-top-left{left:0;right:auto;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top left;transform-origin:top left}.fa-lg{font-size:1.3333333333em;line-height:.75em;vertical-align:-.0667em}.fa-xs{font-size:.75em}.fa-sm{font-size:.875em}.fa-1x{font-size:1em}.fa-2x{font-size:2em}.fa-3x{font-size:3em}.fa-4x{font-size:4em}.fa-5x{font-size:5em}.fa-6x{font-size:6em}.fa-7x{font-size:7em}.fa-8x{font-size:8em}.fa-9x{font-size:9em}.fa-10x{font-size:10em}.fa-fw{text-align:center;width:1.25em}.fa-ul{list-style-type:none;margin-left:2.5em;padding-left:0}.fa-ul>li{position:relative}.fa-li{left:-2em;position:absolute;text-align:center;width:2em;line-height:inherit}.fa-border{border:solid .08em #eee;border-radius:.1em;padding:.2em .25em .15em}.fa-pull-left{float:left}.fa-pull-right{float:right}.fa.fa-pull-left,.fab.fa-pull-left,.fal.fa-pull-left,.far.fa-pull-left,.fas.fa-pull-left{margin-right:.3em}.fa.fa-pull-right,.fab.fa-pull-right,.fal.fa-pull-right,.far.fa-pull-right,.fas.fa-pull-right{margin-left:.3em}.fa-spin{-webkit-animation:fa-spin 2s infinite linear;animation:fa-spin 2s infinite linear}.fa-pulse{-webkit-animation:fa-spin 1s infinite steps(8);animation:fa-spin 1s infinite steps(8)}@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.fa-rotate-90{-webkit-transform:rotate(90deg);transform:rotate(90deg)}.fa-rotate-180{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.fa-rotate-270{-webkit-transform:rotate(270deg);transform:rotate(270deg)}.fa-flip-horizontal{-webkit-transform:scale(-1,1);transform:scale(-1,1)}.fa-flip-vertical{-webkit-transform:scale(1,-1);transform:scale(1,-1)}.fa-flip-both,.fa-flip-horizontal.fa-flip-vertical{-webkit-transform:scale(-1,-1);transform:scale(-1,-1)}:root .fa-flip-both,:root .fa-flip-horizontal,:root .fa-flip-vertical,:root .fa-rotate-180,:root .fa-rotate-270,:root .fa-rotate-90{-webkit-filter:none;filter:none}.fa-stack{display:inline-block;height:2em;position:relative;width:2.5em}.fa-stack-1x,.fa-stack-2x{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.svg-inline--fa.fa-stack-1x{height:1em;width:1.25em}.svg-inline--fa.fa-stack-2x{height:2em;width:2.5em}.fa-inverse{color:#fff}.sr-only{border:0;clip:rect(0,0,0,0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.sr-only-focusable:active,.sr-only-focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto}.svg-inline--fa .fa-primary{fill:var(--fa-primary-color,currentColor);opacity:1;opacity:var(--fa-primary-opacity,1)}.svg-inline--fa .fa-secondary{fill:var(--fa-secondary-color,currentColor);opacity:.4;opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-primary{opacity:.4;opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-secondary{opacity:1;opacity:var(--fa-primary-opacity,1)}.svg-inline--fa mask .fa-primary,.svg-inline--fa mask .fa-secondary{fill:#000}.fad.fa-inverse{color:#fff}</style><link href="./static/css" rel="stylesheet">
 
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
+    <link rel="stylesheet" href="./static/bulma.min.css">
+    <link rel="stylesheet" href="./static/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/fontawesome.all.min.css">
+    <link rel="stylesheet" href="./static/academicons.min.css">
+    <link rel="stylesheet" href="./static/index.css">
+    <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
+    <script src="./static/jquery.min.js"></script>
+    <script defer="" src="./static/fontawesome.all.min.js"></script>
+    <script src="./static/bulma-carousel.min.js"></script>
+    <script src="./static/bulma-slider.min.js"></script>
+    <script src="./static/index.js"></script>
+    <script src="./static/video_comparison.js"></script>
+
+    <!-- minghan -->
+    <style type="text/css">
+        h3 {
+            height: 130px;
+            text-align: center;
+            /* font-weight: ; */
+            /* background-color: red; */
+            font-family: Chalkduster;
+            color: black;
+            width: 200px;
+            display: inline-block;
+            padding: 11px 15px 11px 15px;
+            border-radius: 10px;
+        }
+
+        font {
+            height: 130px;
+            text-align: center;
+            /* font-weight: ; */
+            /* background-color: red; */
+            font-family: Chalkduster;
+            color: black;
+            width: 200px;
+            display: inline-block;
+            padding: 11px 15px 11px 15px;
+            border-radius: 10px;
+        }
+
+        td {
+            height: 200px;
+            padding: 20px;
+            width: 200px;
+            /* background-color: red; */
+        }
+    </style>
+
 </head>
+
 <body>
 
-<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</nav> -->
-
-
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">UniHDA: Towards Universal Hybrid Domain Adaptation of Image Generators</h1>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              Hengjia Li</a><sup>1</sup>,</span>
-            <span class="author-block">
-              Yang Liu</a><sup>1</sup>,</span>
-            <span class="author-block">
-              Yuqi Lin</a><sup>1</sup>,
-            </span>
-            <span class="author-block">
-              Zhanwei Zhang</a><sup>1</sup>,
-            </span>
-            <span class="author-block">
-              Yibo Zhao</a><sup>1</sup>,
-            </span>
-            <span class="author-block">
-              Weihang Pan</a><sup>1</sup>,
-            </span>
-            <span class="author-block">
-              Tu Zheng</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              Zheng Yang</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              Chunjiang Yu</a><sup>3</sup>,
-            </span>
-            <span class="author-block">
-              Boxi Wu</a><sup>1</sup>,
-            </span>
-            <span class="author-block">
-              Deng Cai</a><sup>1</sup>.
-            </span>
-          </div>
-
-          <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>Zhejiang University,</span>
-            <span class="author-block"><sup>2</sup>Fabu Inc,</span>
-            <span class="author-block"><sup>3</sup>Ningbo Port.</span>
-          </div>
-
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="https://arxiv.org/pdf/2401.12596.pdf"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2401.12596"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Video Link. -->
-              <!-- <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span> -->
-              <!-- Code Link. -->
-              <!-- <span class="link-block">
-                <a href="https://github.com/EchoPluto/FHDA"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span> -->
-              <!-- Dataset Link. -->
-              <!-- <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a> -->
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- <section class="hero teaser">
-  <div class="container is-max-desktop">
+  <section class="hero">
     <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">UniHDA: A Unified and Versatile Framework for Multi-Modal Hybrid Domain Adaptation</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                Hengjia Li</a><sup>1</sup>,</span>
+              <span class="author-block">
+                Yang Liu</a><sup>1</sup>,</span>
+              <span class="author-block">
+                Yuqi Lin</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                Zhanwei Zhang</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                Yibo Zhao</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                Weihang Pan</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                Tu Zheng</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                Zheng Yang</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                Chunjiang Yu</a><sup>3</sup>,
+              </span>
+              <span class="author-block">
+                Boxi Wu</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                Deng Cai</a><sup>1</sup>.
+              </span>
+            </div>
+  
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Zhejiang University,</span>
+              <span class="author-block"><sup>2</sup>Fabu Inc,</span>
+              <span class="author-block"><sup>3</sup>Ningbo Port.</span>
+            </div>
+  
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2401.12596.pdf"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2401.12596"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Video Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span> -->
+                <!-- Code Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://github.com/EchoPluto/FHDA"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                    </a>
+                </span> -->
+                <!-- Dataset Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                        <i class="far fa-images"></i>
+                    </span>
+                    <span>Data</span>
+                    </a> -->
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+    <!-- Begin teaser video. -->
+    <!-- Translation. -->
+    <!-- <div class="columns is-centered has-text-centered">
+  <h2 class="title is-3">Video Translation</h2>
+</div> -->
+
+    <!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div>
+          <video class="video" id="Teaser"  width="50%"  loop playsinline autoPlay muted src="./static/video_demos_compressed/teaser/teaser.mp4" onplay="resizeAndPlay(this)"></video>
+          <canvas width="150" height="150" class="videoMerge" id="TeaserMerge"></canvas>
+    </div>
+    <div class="hero-body">
       <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
+        <span class="dnerf">Consistent</span> <span class="dnerf">Video</span> <span class="dnerf">Translation</span> with the learned canonical image and deformation. 
+        Slide for comparison. For all the demos, the inputs are provided on the left.
       </h2>
     </div>
   </div>
 </section> -->
 
-<!-- 
-<section class="hero is-light is-small">
+    <!-- ./static/video_demos_compressed/teaser/teaser.mp4 -->
+    <!-- <section class="hero teaser">
+        <div class="container is-max-desktop">
+            <div style="width: 200px; height: 150px; float: left;">
+                <h3 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">cat → tiger<br>straw hat → colorful straw hat</h3>
+                <video class="video" id="Teaser" width="50%" loop playsinline autoPlay muted src="./test.mp4"
+                    onplay="resizeAndPlay(this)"></video>
+                <canvas width="150" height="150" class="videoMerge" id="TeaserMerge"></canvas>
+            </div>
+            <div style="width: 200px; height: 150px; float: right;">
+                <h3>sadfadsf</h3>
+                <video class="video" id="Teaser_1" width="50%" loop playsinline autoPlay muted src="./test.mp4"
+                    onplay="resizeAndPlay(this)"></video>
+                <canvas width="150" height="150" class="videoMerge" id="Teaser_1Merge"></canvas>
+            </div>
+        </div>
+    </section> -->
+
+
+
+
+    <section class="hero teaser">
+        <div class="container is-max-desktop">
+            <table>
+                <!--                 
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr> -->
+                <!-- 1-line -->
+                <tbody><tr>
+                    <td>
+                        <!-- <h3><span style="text-wrap: nowrap;"><span style="color: blue;">vase</span> → <span style="color: red;">teapot</span></span><br><span style="text-wrap: nowrap;"><span style="color: blue;">book</span> → <span style="color: red;">plate with fried egg and fork</span></span></h3> -->
+                        <h3><img src="./static/images/joker.png" id="motivation" width="60%"><br>
+                            <span style="color: red;">Smile</span></h3>
+                        <video class="video" id="Teaser0" width="50%" playsinline="" autoplay="" muted="" src="./static/joker.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser0Merge" width="512" height="512"></canvas>
+                    </td>
+                    <td>
+                        <h3><img src="./static/images/taylor.jpg" id="motivation" width="46%"> <img src="./static/images/elsa.png" id="motivation" width="48%"><br>
+                          <span style="color: red;">Blue eyes + Big eyes</span></h3>
+                        <video class="video" id="Teaser2" width="50%" playsinline="" autoplay="" muted="" src="./static/taylor.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser2Merge" width="512" height="512"></canvas>
+                    </td>
+                    <td>
+                        <h3><img src="./static/images/haoke.jpg" id="motivation" width="46%"><br>
+                            <span style="color: red;">Angry + Anime + Green Big eyes</span></h3>
+                        <video class="video" id="Teaser1" width="50%" playsinline="" autoplay="" muted="" src="./static/haoke.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser1Merge" width="512" height="512"></canvas>
+                    </td>
+
+                    <!-- <td>
+                        <h3><span style="color: blue;">starfish</span> → <span style="color: red;">stuffed toy
+                                starfish</span><br><span style="color: blue;">foam</span> → <span style="color: red;">chequered blanket</span></h3>
+                        <video class="video" id="Teaser3" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0013.mp4" onplay="resizeAndPlay(this)"></video>
+                        <canvas class="videoMerge" id="Teaser3Merge" width="512px" height="512px"></canvas>
+                    </td> -->
+                </tr>
+
+                <!-- 3-line -->
+                <!-- <tr>
+                    <td>
+                        <h3><span style="color: blue;">lighthouse</span> → <span style="color: red;">rocket taking
+                                off</span><br><span style="color: blue;">blue sky</span> → <span style="color: red;">sky with sunset</span></h3>
+                        <video class="video" id="Teaser4" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0016.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser4Merge" width="512" height="512"></canvas>
+                    </td>
+                    <td>
+                        <h3><span style="color: blue;">monitor</span> → <span style="color: red;">gift
+                                box</span><br><span style="color: blue;">keyboard</span> → <span style="color: red;">game controller</span></h3>
+                        <video class="video" id="Teaser5" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0221.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser5Merge" width="512" height="512"></canvas>
+                    </td>
+
+                    <td>
+                        <h3><span style="color: blue;">TV</span> → <span style="color: red;">TV playing a cartoon
+                                picture</span><br><span style="color: blue;">bench</span> → <span style="color: red;">crochet bench</span></h3>
+                        <video class="video" id="Teaser6" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0228.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser6Merge" width="512" height="512"></canvas>
+                    </td>
+
+                    <td>
+                        <h3><span style="color: blue;">plant</span> → <span style="color: red;">Lego
+                                plant</span><br><span style="color: blue;">human hand</span> → <span style="color: red;">wooden table</span></h3>
+                        <video class="video" id="Teaser7" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0271.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser7Merge" width="512" height="512"></canvas>
+                    </td>
+                </tr> -->
+
+                <!-- 3-line -->
+                <!-- <tr>
+
+                    <td>
+                        <h3><span style="color: blue;">Wall-E</span> → <span style="color: red;">crochet
+                                Wall-E</span><br><span style="color: blue;">water</span> → <span style="color: red;">a pile of confetti</span></h3>
+                        <video class="video" id="Teaser8" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0280.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser8Merge" width="512" height="512"></canvas>
+                    </td>
+
+                    <td>
+                        <h3><span style="color: blue;">dumplings</span> → <span style="color: red;">fry
+                                rice</span><br><span style="color: blue;">chopsticks</span> → <span style="color: red;">knife</span></h3>
+                        <video class="video" id="Teaser9" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0010.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser9Merge" width="512" height="512"></canvas>
+                    </td>
+
+                    <td>
+                        <h3><span style="color: blue;">car</span> → <span style="color: red;">cabriolet</span><br><span style="color: blue;">wooden
+                                house</span> → <span style="color: red;">glass house</span></h3>
+                        <video class="video" id="Teaser10" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0014.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser10Merge" width="512" height="512"></canvas>
+                    </td>
+
+                    <td>
+                        <h3><span style="color: blue;">rabbit wearing glasses</span> → <span style="color: red;">origami
+                                rabbit wearing glasses</span><br><span style="color: blue;">book</span> → <span style="color: red;">newspaper</span></h3>
+                        <video class="video" id="Teaser11" width="50%" playsinline="" autoplay="" muted="" src="./videos/multi_object_nice_0244.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+                        <canvas class="videoMerge" id="Teaser11Merge" width="512" height="512"></canvas>
+                    </td>
+                </tr> -->
+
+            </tbody></table>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Begin gallery. -->
+    <!-- <section class="hero is-light is-small">
   <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <br/>
+      </div>
+    </div> -->
+
+
+    <!-- Begin gallery-1. -->
+    <!-- <div class="container">
+      <div id="results-carousel1" class="carousel results-carousel">
+        <div class="item g11">
+          <video poster="" id="g11" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x540/tifa.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
+        <div class="item g12">
+          <video poster="" id="g12" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x540/rainbow.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
+        <div class="item g13">
+          <video poster="" id="g13" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x540/beauty_1_base_transformed_dual(1).mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
+        <div class="item g14">
+          <video poster="" id="g14" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x540/beauty_1_base_transformed_dual(2).mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
+		    <div class="item g15">
+          <video poster="" id="g15" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x540/beauty_0_base_video_hash_transformed_dual(1).mp4"
+                    type="video/mp4">
+        </video>
+        </div>
+        <div class="item g16">
+          <video poster="" id="g16" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x540/beauty_0_base_video_hash_transformed_dual(2).mp4"
+                    type="video/mp4">
+        </video>
+        </div>
+      </div>
+    </div> -->
+
+
+
+
+    <!-- Begin gallery-2. -->
+    <!-- <div class="container">
+      <div id="results-carousel2" class="carousel results-carousel">
+        <div class="item g21">
+          <video poster="" id="g21" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x960/scene_1_base_transformed_dual.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
+        <div class="item g22">
+          <video poster="" id="g22" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x960/dog.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
+        <div class="item g23">
+          <video poster="" id="g23" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x960/smoke_colorful.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
+        <div class="item g24">
+          <video poster="" id="g24" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1080x960/smoke_ink.mp4"
                     type="video/mp4">
           </video>
         </div>
       </div>
+    </div> -->
+
+    <!-- Begin gallery-3. -->
+    <!-- <div class="container">
+      <div id="results-carousel3" class="carousel results-carousel">
+        <div class="item g31">
+          <video poster="" id="g31" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1920x540/long_season.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item g32">
+          <video poster="" id="g32" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1920x540/scene_3_base_transformed_dual.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item g33">
+          <video poster="" id="g33" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1920x540/titanic.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item g34">
+          <video poster="" id="g34" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1920x540/lemon_earth.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item g35">
+          <video poster="" id="g35" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1920x540/cloud_atlas4_base_transformed_dual.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item g36">
+          <video poster="" id="g36" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/video_demos_compressed/1920x540/diamond_1_base_transformed_dual.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section> -->
+    <!-- End gallery. -->
+
+
+
+
+    <!-- Begin video slider. -->
+    <!-- <br>
+<div class="container is-max-desktop">
+  <div class="columns is-centered">
+    <div class="column is-two-fifths">
+      <div>
+        <video class="video" id="FinalSlider"  width="50%"  loop playsinline autoPlay muted src="./static/video_demos_compressed/slider/slider.mp4" onplay="resizeAndPlay(this)"></video>
+        <canvas width="150" height="150" class="videoMerge" id="FinalSliderMerge"></canvas> 
+      </div>
+  <br>Left: The input.  Right: The synthesized video by CoDeF with the prompt "Chinese ink painting".
+      <br/>
+    </div>
+  </div>
+</div>
+  
+<br> -->
+    <!-- End video slider -->
+    <!-- End teaser video. -->
+
+
+
+    <!-- Begin abstract -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Abstract</h2>
+                    <img src="./static/images/teaser.png" id="motivation"><br><br>
+                    <div class="content has-text-justified">
+                        <p>
+                          Generative domain adaptation has achieved remarkable progress, enabling us to adapt a pre-trained generator to a new target domain. 
+                          However, existing methods simply adapt the generator to a single target domain and are limited to a single modality, either text-driven or image-driven. 
+                          Moreover, they are prone to overfitting domain-specific attributes, which inevitably compromises cross-domain consistency. 
+                          In this paper, we propose UniHDA, a unified and versatile framework for generative hybrid domain adaptation with multi-modal references from multiple domains. 
+                          We use CLIP encoder to project multi-modal references into a unified embedding space and then linear interpolate the direction vectors from multiple target domains to achieve hybrid domain adaptation.
+                          To ensure the cross-domain consistency, we propose a novel cross-domain spatial structure (CSS) loss that maintains detailed spatial structure information between source and target generator. 
+                          Experiments show that the adapted generator can synthesise realistic images with various attribute compositions. 
+                          Additionally, our framework is versatile to multiple generators, e.g., StyleGAN2 and Diffusion Models.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br><br>
+    <!-- End abstract -->
+
+
+
+    <section class="section">
+      <div class="container is-max-desktop">
+          <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                  <h2 class="title is-3">Method</h2>
+                  <img src="./static/images/linear.png" id="motivation"><br><br>
+                  <img src="./static/images/framework.png" id="method"><br><br>
+                  <div class="content has-text-justified">
+                </div>
+              </div>
+          </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="container is-max-desktop">
+          <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                  <h2 class="title is-3">Results on multi-modal hybrid domain</h2>
+                  <img src="./static/images/t-i.png" id="text-image"><br><br>
+          </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="container is-max-desktop">
+          <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                  <!-- <h2 class="title is-3">Results on image-image</h2> -->
+                  <img src="./static/images/i-i.png" id="text-image"><br><br>
+          </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="container is-max-desktop">
+          <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                  <!-- <h2 class="title is-3">Results on text-text</h2> -->
+                  <img src="./static/images/t-t.png" id="text-image"><br><br>
+          </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="container is-max-desktop">
+          <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                  <h2 class="title is-3">Results on DiffusionCLIP</h2>
+                  <img src="./static/images/diff.png" id="text-image"><br><br>
+          </div>
+      </div>
+    </section>
+    
+    <section class="section">
+      <div class="container is-max-desktop">
+          <div class="columns is-centered has-text-centered">
+              <div class="column is-four-fifths">
+                  <h2 class="title is-3">Results on EG3D</h2>
+                  <img src="./static/images/eg3d.png" id="text-image"><br><br>
+          </div>
+      </div>
+    </section>
+
+
+
+    <!-- Other applications. -->
+    <!-- <div class="columns is-centered has-text-centered">
+  <h2 class="title is-3">Other Applications</h2><br>
+</div> -->
+
+
+
+    <!-- Point-based Tracking. -->
+    <!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser_tracking" autoplay muted loop playsinline height="100%">
+        <source src="./static/video_demos_compressed/teaser/tracking_zoom.mp4"
+                type="video/mp4">
+      </video>
+
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Point-based Tracking</span> with the learned canonical image and deformation.
+      </h2>
     </div>
   </div>
 </section> -->
 
 
-<section class="section">
+
+    <!-- Segmentation-based Tracking. -->
+    <!-- <section class="hero teaser">
   <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <img src="./static/images/task.png" id="motivation"><br><br>
-        <div class="content has-text-justified">
-          <p>
-            Generative domain adaptation has achieved remarkable progress, enabling us to adapt a pre-trained generator to a new target domain. 
-            However, existing methods simply adapt the generator to a single target domain and are limited to a single modality, either text-driven or image-driven. 
-            Moreover, they are prone to overfitting domain-specific attributes, which inevitably compromises cross-domain consistency. 
-            In this paper, we propose UniHDA, a unified and versatile framework for generative hybrid domain adaptation with multi-modal references from multiple domains. 
-            We use CLIP encoder to project multi-modal references into a unified embedding space and then linear interpolate the direction vectors from multiple target domains to achieve hybrid domain adaptation.
-            To ensure the cross-domain consistency, we propose a novel cross-domain spatial structure (CSS) loss that maintains detailed spatial structure information between source and target generator. 
-            Experiments show that the adapted generator can synthesise realistic images with various attribute compositions. 
-            Additionally, our framework is versatile to multiple generators, e.g., StyleGAN2 and Diffusion Models.
-          </p>
-        </div>
-      </div>
+    <div>
+          <video class="video" id="SegTrack" width="60%" loop playsinline autoPlay muted src="./static/video_demos_compressed/teaser/segtrack.mp4" onplay="resizeAndPlay(this)"></video>
+          <canvas width="150" height="150" class="videoMerge" id="SegTrackMerge"></canvas>
     </div>
-    <!--/ Abstract. -->
-
-    <!-- Paper video. -->
-    <!-- <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div> -->
-    <!--/ Paper video. -->
+    <div class="hero-body">
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Segmentation-based Tracking</span>. The segmentation mask is acquired based on the learned canonical image and propagated to the sequence. Slide for better visualization.
+      </h2>
+    </div>
   </div>
-</section>
+</section> -->
 
-<section class="section">
+
+
+
+    <!-- Super-resolution. -->
+    <!-- <section class="hero teaser">
   <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-              <h2 class="title is-3">Method</h2>
-              <img src="./static/images/linear.png" id="motivation"><br><br>
-              <img src="./static/images/framework.png" id="method"><br><br>
-              <div class="content has-text-justified">
-            </div>
-          </div>
-      </div>
+    <div>
+          <video class="video" id="Superres" width="60%" loop playsinline autoPlay muted src="./static/video_demos_compressed/teaser/cloud_atlas_SR_dual.mp4" onplay="resizeAndPlay(this)"></video>
+          <canvas width="150" height="150" class="videoMerge" id="SuperresMerge"></canvas>
+    </div>
+    <div class="hero-body">
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Video</span> <span class="dnerf">Super-resolution</span> with the learned canonical image and deformation. 
+        Slide for comparison.
+      </h2>
+    </div>
   </div>
-</section>
+</section> -->
 
-<section class="section">
-  <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-              <h2 class="title is-3">Results on multi-modal hybrid domain</h2>
-              <img src="./static/images/t-i.png" id="text-image"><br><br>
-      </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-              <!-- <h2 class="title is-3">Results on image-image</h2> -->
-              <img src="./static/images/i-i.png" id="text-image"><br><br>
-      </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-              <!-- <h2 class="title is-3">Results on text-text</h2> -->
-              <img src="./static/images/t-t.png" id="text-image"><br><br>
-      </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-              <h2 class="title is-3">Results on DiffusionCLIP</h2>
-              <img src="./static/images/diff.png" id="text-image"><br><br>
-      </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-              <h2 class="title is-3">Results on EG3D</h2>
-              <img src="./static/images/eg3d.png" id="text-image"><br><br>
-      </div>
-  </div>
-</section>
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
@@ -377,27 +659,48 @@
 </section>
 
 
-<footer class="footer">
-  <div class="container">
-      <!-- <div class="content has-text-centered">
-          <a class="icon-link" href="./static/videos/nerfies_paper.pdf">
-              <i class="fas fa-file-pdf"></i>
-          </a>
-          <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
-              <i class="fab fa-github"></i>
-          </a>
-      </div> -->
-      <div class="content has-text-centered">
-          <div class="content">
-              <p>
-                  This website was modified from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. We appreciate for sharing
-                  this perfect template!
-              </p>
-          </div>
-      </div>
-  </div>
-</footer>
+    <footer class="footer">
+        <div class="container">
+            <!-- <div class="content has-text-centered">
+                <a class="icon-link" href="./static/videos/nerfies_paper.pdf">
+                    <i class="fas fa-file-pdf"></i>
+                </a>
+                <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+                    <i class="fab fa-github"></i>
+                </a>
+            </div> -->
+            <div class="content has-text-centered">
+                <div class="content">
+                    <p>
+                        This website was modified from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. We appreciate for sharing
+                        this perfect template!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        bulmaCarousel.attach('#results-carousel1', {
+            slidesToScroll: 1,
+            slidesToShow: 2,
+            infinite: true,
+            autoplay: false,
+        });
+        bulmaCarousel.attach('#results-carousel2', {
+            slidesToScroll: 1,
+            slidesToShow: 2,
+            infinite: true,
+            autoplay: false,
+        });
+        bulmaCarousel.attach('#results-carousel3', {
+            slidesToScroll: 1,
+            slidesToShow: 1,
+            infinite: true,
+            autoplay: false,
+        });
+    </script>
 
 
-</body>
-</html>
+
+</body></html>
